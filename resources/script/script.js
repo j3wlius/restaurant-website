@@ -110,6 +110,30 @@ addEventOnElements([heroSliderNextBtn, heroSliderPrevBtn], 'mouseover', () => {
   clearInterval(autoSlideInterval);
 });
 
-addEventOnElements([heroSliderNextBtn, heroSliderPrevBtn], 'mouseout', autoSlide);
+addEventOnElements(
+  [heroSliderNextBtn, heroSliderPrevBtn],
+  'mouseout',
+  autoSlide
+);
 
 window.addEventListener('load', autoSlide);
+
+/* === PARALLAX EFFECT === */
+const prallaxItems = document.querySelectorAll('[data-parallax-item]');
+
+let x, y;
+
+window.addEventListener('mousemove', (event) => {
+  x = (event.clientX / window.innerWidth) * 10 - 5;
+  y = (event.clientY / window.innerHeight) * 10 - 5;
+
+  // flip the numbers e.g 20 to -20, 5 to -5
+  x = x - x * 2;
+  y = x - y * 2;
+
+  for (let i = 0; i < prallaxItems.length; i++) {
+    x = x * Number(prallaxItems[i].dataset.parallaxSpeed);
+    y = y * Number(prallaxItems[i].dataset.parallaxSpeed);
+    prallaxItems[i].style.transform = `translate3d(${x}px, ${y}px, 0px)`;
+  }
+});
